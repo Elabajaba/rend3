@@ -128,14 +128,7 @@ impl EguiRenderRoutine {
             view_formats: &[],
         });
 
-        EguiRenderRoutine::wgpu_texture_to_egui(
-            internal,
-            renderer,
-            image_texture,
-            image_rgba,
-            dimensions,
-            format.describe(),
-        )
+        EguiRenderRoutine::wgpu_texture_to_egui(internal, renderer, image_texture, image_rgba, dimensions, format)
     }
 
     /// Creates egui::TextureId with wgpu backend with existing wgpu::Texture
@@ -145,8 +138,9 @@ impl EguiRenderRoutine {
         image_texture: wgpu::Texture,
         image_rgba: &[u8],
         dimensions: (u32, u32),
-        textureformatinfo: wgpu_types::TextureFormatInfo,
+        textureformat: wgpu::TextureFormat,
     ) -> egui::TextureId {
+        image_texture.format();
         let device = &renderer.device;
         let queue = &renderer.queue;
 
@@ -166,8 +160,8 @@ impl EguiRenderRoutine {
             image_rgba,
             wgpu::ImageDataLayout {
                 offset: 0,
-                bytes_per_row: std::num::NonZeroU32::new(
-                    (dimensions.0 / textureformatinfo.block_dimensions.0 as u32) * textureformatinfo.block_size as u32,
+                bytes_per_row: Some(
+                    (dimensions.0 / textureformat.block_dimensions().0) * textureformat.block_size(None).unwrap(),
                 ),
                 rows_per_image: None,
             },

@@ -1,44 +1,55 @@
-[package]
-name = "rend3-egui-example"
-license = "MIT OR Apache-2.0 OR Zlib"
-version = "0.3.0"
-authors = ["The rend3 Developers"]
-edition = "2021"
-publish = false
-rust-version = "1.65"
+# [package]
+# name = "rend3-egui-example"
+# license = "MIT OR Apache-2.0 OR Zlib"
+# version = "0.3.0"
+# authors = ["The rend3 Developers"]
+# edition = "2021"
+# publish = false
+# rust-version = "1.65"
 
-[[bin]]
-name = "egui"
-path = "src/main.rs"
+# [[bin]]
+# name = "egui"
+# path = "src/main.rs"
 
-[dependencies]
-# The egui immediate mode gui library
-egui = "0.21.0"
-# Winit integration with egui (turn off the clipboard feature)
-egui-winit = { version = "0.21", default-features = false, features = ["links", "wayland"] }
-# logging
-env_logger = { version = "0.10", default-features = false, features = ["auto-color", "humantime"] }
-# Linear algebra library
-glam = "0.22"
-# Importing png's
-image = { version = "0.24.3", default-features = false, features = ["png"] }
-# Portable implementation of Instant.
-instant = { version = "0.1", features = ["wasm-bindgen"] }
-# Renderer core
-rend3 = { version = "^0.3.0",path = "../../rend3" }
-# Egui renderer integration
-rend3-egui = { version = "^0.3.0",path = "../../rend3-egui" }
-# Framework that deals with the event loop, setting up the renderer, and platform differences.
-rend3-framework = { version = "^0.3.0", path = "../../rend3-framework" }
-# Programmable render list that dictates how the scene renders
-rend3-routine = { version = "^0.3.0",path = "../../rend3-routine" }
-# Windowing
-winit = "0.28"
-# Opening URL's
-webbrowser = "0.8.2"
-# Creating textures
-wgpu = "0.15"
+# [dependencies]
+# # The egui immediate mode gui library
+# # egui = "0.21.0"
+# egui = { git = "https://github.com/emilk/egui.git", rev = "3d6a15f442929ae14b942e2d5248f236e7ef9b2f" }
+# # Winit integration with egui (turn off the clipboard feature)
+# egui-winit = { version = "0.21", default-features = false, features = [
+#     "links",
+#     "wayland",
+# ] }
+# # logging
+# env_logger = { version = "0.10", default-features = false, features = [
+#     "auto-color",
+#     "humantime",
+# ] }
+# # Linear algebra library
+# glam = "0.23"
+# # Importing png's
+# image = { version = "0.24.3", default-features = false, features = ["png"] }
+# # Portable implementation of Instant.
+# instant = { version = "0.1", features = ["wasm-bindgen"] }
+# # Renderer core
+# rend3 = { version = "^0.3.0", path = "../../rend3" }
+# # Egui renderer integration
+# rend3-egui = { version = "^0.3.0", path = "../../rend3-egui" }
+# # Framework that deals with the event loop, setting up the renderer, and platform differences.
+# rend3-framework = { version = "^0.3.0", path = "../../rend3-framework" }
+# # Programmable render list that dictates how the scene renders
+# rend3-routine = { version = "^0.3.0", path = "../../rend3-routine" }
+# # Windowing
+# winit = "0.28"
+# # Opening URL's
+# webbrowser = "0.8.2"
+# # Creating textures
+# wgpu = "0.16"
 
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-# Winit integration with egui
-egui-winit = { version = "0.21", default-features = false, features = ["clipboard", "links", "wayland"] }
+# [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+# # Winit integration with egui
+# egui-winit = { version = "0.21", default-features = false, features = [
+#     "clipboard",
+#     "links",
+#     "wayland",
+# ] }

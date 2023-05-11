@@ -4,7 +4,7 @@ members = [
     "examples/animation",
     "examples/cube",
     "examples/cube-no-framework",
-    "examples/egui",
+    # "examples/egui",
     "examples/imgui",
     "examples/scene-viewer",
     "examples/skinning",
@@ -17,7 +17,7 @@ members = [
     "rend3-gltf",
     "rend3-imgui",
     "rend3-routine",
-    "rend3-types"
+    "rend3-types",
 ]
 
 [profile.ci]
@@ -36,6 +36,11 @@ debug = true
 lto = "thin"
 
 [patch.crates-io]
+egui = { git = "https://github.com/emilk/egui.git", rev = "3d6a15f442929ae14b942e2d5248f236e7ef9b2f" }
+wgpu = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
+wgpu-hal = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
+wgpu-core = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
+wgpu-types = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
 # wgpu = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-core = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-hal = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }

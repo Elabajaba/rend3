@@ -1,5 +1,3 @@
-use std::num::NonZeroU8;
-
 use rend3::util::bind_merge::{BindGroupBuilder, BindGroupLayoutBuilder};
 use wgpu::{
     AddressMode, BindingType, CompareFunction, Device, FilterMode, Sampler, SamplerBindingType, SamplerDescriptor,
@@ -71,7 +69,10 @@ fn create_sampler(device: &Device, filter: FilterMode, compare: Option<CompareFu
         lod_min_clamp: 0.0,
         lod_max_clamp: 100.0,
         compare,
-        anisotropy_clamp: NonZeroU8::new(16),
+        anisotropy_clamp: match filter {
+            FilterMode::Nearest => 1,
+            FilterMode::Linear => 16,
+        },
         border_color: None,
     })
 }

@@ -32,7 +32,7 @@ tracy = ["profiling/profile-with-tracy", "tracy-client"]
 [dependencies]
 anyhow = "1"
 cfg-if = "1"
-glam = "0.22"
+glam = "0.23"
 histogram = "0.6"
 image = { version = "0.24", default-features = false, features = ["png", "jpeg", "tiff"]}
 indoc = "2"
@@ -48,7 +48,7 @@ rend3-routine = { version = "^0.3.0", path = "../../rend3-routine" }
 rustc-hash = "1"
 smallvec = "1"
 tracy-client = { version = "0.14", optional = true }
-wgpu-profiler = "0.11.0"
+wgpu-profiler = "0.12.1"
 winit = "0.28"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]

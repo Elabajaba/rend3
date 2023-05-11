@@ -32,7 +32,9 @@ use base64::Engine;
 use glam::{Mat3, Mat4, Quat, UVec2, Vec2, Vec3, Vec4};
 use gltf::buffer::Source;
 use rend3::{
-    types::{self, Handedness, MeshValidationError, ObjectHandle, ObjectMeshKind, Skeleton, SkeletonHandle},
+    types::{
+        self, Handedness, MeshValidationError, ObjectHandle, ObjectMeshKind, Skeleton, SkeletonHandle, TextureFormat,
+    },
     util::typedefs::{FastHashMap, SsoString},
     Renderer,
 };
@@ -971,10 +973,10 @@ where
                 gltf::material::AlphaMode::Blend => pbr::Transparency::Blend,
             },
             normal: match normals_tex {
-                Some(tex) if tex.format.describe().components == 2 => {
+                Some(tex) if components(tex.format) == 2 => {
                     pbr::NormalTexture::Bicomponent(tex.handle, settings.normal_direction)
                 }
-                Some(tex) if tex.format.describe().components >= 3 => {
+                Some(tex) if components(tex.format) >= 3 => {
                     pbr::NormalTexture::Tricomponent(tex.handle, settings.normal_direction)
                 }
                 _ => pbr::NormalTexture::None,
@@ -983,12 +985,7 @@ where
                 (Some(mr), Some(ao)) if mr == ao => pbr::AoMRTextures::Combined {
                     texture: Some(mr.handle),
                 },
-                (mr, ao)
-                    if ao
-                        .as_ref()
-                        .map(|ao| ao.format.describe().components < 3)
-                        .unwrap_or(false) =>
-                {
+                (mr, ao) if ao.as_ref().map(|ao| components(ao.format) < 3).unwrap_or(false) => {
                     pbr::AoMRTextures::Split {
                         mr_texture: util::extract_handle(mr),
                         ao_texture: util::extract_handle(ao),
@@ -1115,8 +1112,7 @@ where
             return Err(GltfLoadError::TextureTooManyLayers(uri.take().unwrap()));
         }
 
-        let describe = format.describe();
-        let guaranteed_format = describe.guaranteed_format_features;
+        let guaranteed_format = format.guaranteed_format_features(renderer.features);
         let generate = header.level_count == 1
             && guaranteed_format
                 .flags
@@ -1174,7 +1170,7 @@ where
                 return Err(GltfLoadError::TextureZeroLevels(uri.take().unwrap()));
             }
 
-            let guaranteed_format = format.describe().guaranteed_format_features;
+            let guaranteed_format = format.guaranteed_format_features(renderer.features);
             let generate = dds.get_num_mipmap_levels() == 1
                 && guaranteed_format
                     .flags
@@ -1434,7 +1430,7 @@ pub mod util {
             k2F::BC5_UNORM_BLOCK => r3F::Bc5RgUnorm,
             k2F::BC5_SNORM_BLOCK => r3F::Bc5RgSnorm,
             k2F::BC6H_UFLOAT_BLOCK => r3F::Bc6hRgbUfloat,
-            k2F::BC6H_SFLOAT_BLOCK => r3F::Bc6hRgbSfloat,
+            k2F::BC6H_SFLOAT_BLOCK => r3F::Bc6hRgbFloat,
             k2F::BC7_UNORM_BLOCK | k2F::BC7_SRGB_BLOCK => {
                 if srgb {
                     r3F::Bc7RgbaUnormSrgb
@@ -1757,7 +1753,7 @@ pub mod util {
             | d3F::B8G8R8X8_Typeless
             | d3F::B8G8R8X8_UNorm_sRGB => return None,
             d3F::BC6H_Typeless | d3F::BC6H_UF16 => r3F::Bc6hRgbUfloat,
-            d3F::BC6H_SF16 => r3F::Bc6hRgbSfloat,
+            d3F::BC6H_SF16 => r3F::Bc6hRgbFloat,
             d3F::BC7_Typeless | d3F::BC7_UNorm | d3F::BC7_UNorm_sRGB => {
                 if srgb {
                     r3F::Bc7RgbaUnormSrgb
@@ -1786,5 +1782,83 @@ pub mod util {
             | d3F::V408
             | d3F::Force_UInt => return None,
         })
+    }
+}
+
+pub(crate) fn components(format: TextureFormat) -> u8 {
+    match format {
+        TextureFormat::R8Unorm => 1,
+        TextureFormat::R8Snorm => 1,
+        TextureFormat::R8Uint => 1,
+        TextureFormat::R8Sint => 1,
+        TextureFormat::R16Uint => 1,
+        TextureFormat::R16Sint => 1,
+        TextureFormat::R16Unorm => 1,
+        TextureFormat::R16Snorm => 1,
+        TextureFormat::R16Float => 1,
+        TextureFormat::R32Uint => 1,
+        TextureFormat::R32Sint => 1,
+        TextureFormat::R32Float => 1,
+        TextureFormat::Rg8Unorm => 2,
+        TextureFormat::Rg8Snorm => 2,
+        TextureFormat::Rg8Uint => 2,
+        TextureFormat::Rg8Sint => 2,
+        TextureFormat::Rg16Uint => 2,
+        TextureFormat::Rg16Sint => 2,
+        TextureFormat::Rg16Unorm => 2,
+        TextureFormat::Rg16Snorm => 2,
+        TextureFormat::Rg16Float => 2,
+        TextureFormat::Rg32Uint => 2,
+        TextureFormat::Rg32Sint => 2,
+        TextureFormat::Rg32Float => 2,
+        TextureFormat::Rg11b10Float => 3,
+        TextureFormat::Rgb9e5Ufloat => 3,
+        TextureFormat::Rgba8Unorm => 4,
+        TextureFormat::Rgba8UnormSrgb => 4,
+        TextureFormat::Rgba8Snorm => 4,
+        TextureFormat::Rgba8Uint => 4,
+        TextureFormat::Rgba8Sint => 4,
+        TextureFormat::Bgra8Unorm => 4,
+        TextureFormat::Bgra8UnormSrgb => 4,
+        TextureFormat::Rgb10a2Unorm => 4,
+        TextureFormat::Rgba16Uint => 4,
+        TextureFormat::Rgba16Sint => 4,
+        TextureFormat::Rgba16Unorm => 4,
+        TextureFormat::Rgba16Snorm => 4,
+        TextureFormat::Rgba16Float => 4,
+        TextureFormat::Rgba32Uint => 4,
+        TextureFormat::Rgba32Sint => 4,
+        TextureFormat::Rgba32Float => 4,
+        TextureFormat::Stencil8 => 1,
+        TextureFormat::Depth16Unorm => 1,
+        TextureFormat::Depth24Plus => 1,
+        TextureFormat::Depth24PlusStencil8 => 2,
+        TextureFormat::Depth32Float => 1,
+        TextureFormat::Depth32FloatStencil8 => 2,
+        TextureFormat::Bc1RgbaUnorm => 4,
+        TextureFormat::Bc1RgbaUnormSrgb => 4,
+        TextureFormat::Bc2RgbaUnorm => 4,
+        TextureFormat::Bc2RgbaUnormSrgb => 4,
+        TextureFormat::Bc3RgbaUnorm => 4,
+        TextureFormat::Bc3RgbaUnormSrgb => 4,
+        TextureFormat::Bc4RUnorm => 1,
+        TextureFormat::Bc4RSnorm => 1,
+        TextureFormat::Bc5RgUnorm => 2,
+        TextureFormat::Bc5RgSnorm => 2,
+        TextureFormat::Bc6hRgbUfloat => 3,
+        TextureFormat::Bc6hRgbFloat => 3,
+        TextureFormat::Bc7RgbaUnorm => 4,
+        TextureFormat::Bc7RgbaUnormSrgb => 4,
+        TextureFormat::Etc2Rgb8Unorm => 3,
+        TextureFormat::Etc2Rgb8UnormSrgb => 3,
+        TextureFormat::Etc2Rgb8A1Unorm => 4,
+        TextureFormat::Etc2Rgb8A1UnormSrgb => 4,
+        TextureFormat::Etc2Rgba8Unorm => 4,
+        TextureFormat::Etc2Rgba8UnormSrgb => 4,
+        TextureFormat::EacR11Unorm => 1,
+        TextureFormat::EacR11Snorm => 1,
+        TextureFormat::EacRg11Unorm => 2,
+        TextureFormat::EacRg11Snorm => 2,
+        TextureFormat::Astc { block, channel } => todo!(),
     }
 }

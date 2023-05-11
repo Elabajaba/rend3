@@ -14,7 +14,7 @@ rust-version = "1.65"
 [dependencies]
 anyhow = "1"
 cfg-if = "1"
-glam = "0.22"
+glam = "0.23"
 log = "0.4"
 parking_lot = "0.12"
 profiling = { version = "1", default-features = false }
@@ -22,7 +22,7 @@ rend3 = { version = "0.3.0", path = "../rend3" }
 rend3-routine = { version = "0.3.0", path = "../rend3-routine" }
 thiserror = { version = "1" }
 winit = "0.28"
-wgpu = "0.15"
+wgpu = "0.16"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 # logging
