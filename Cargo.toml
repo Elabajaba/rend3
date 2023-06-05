@@ -33,14 +33,18 @@ opt-level = 3
 
 [profile.release]
 debug = true
-lto = "thin"
+# lto = "thin"
 
 [patch.crates-io]
 egui = { git = "https://github.com/emilk/egui.git", rev = "3d6a15f442929ae14b942e2d5248f236e7ef9b2f" }
-wgpu = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
-wgpu-hal = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
-wgpu-core = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
-wgpu-types = { git = "https://github.com/gents83/wgpu.git", rev = "7778e1abf5e8d37e635bc2817b6a0b8ac2283e70" }
+# wgpu = "0.16"
+# wgpu-hal = "0.16"
+# wgpu-core = "0.16"
+# wgpu-types = "0.16"
+wgpu = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
+wgpu-hal = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
+wgpu-core = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
+wgpu-types = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
 # wgpu = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-core = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-hal = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }

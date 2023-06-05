@@ -399,9 +399,9 @@ impl From<AdapterInfo> for ExtendedAdapterInfo {
                 0x14E4 => Vendor::Broadcom,
                 0x5143 => Vendor::Qualcomm,
                 0x8086 => Vendor::Intel,
-                v => Vendor::Unknown(v),
+                v => Vendor::Unknown(v as usize),
             },
-            device: info.device,
+            device: info.device as usize,
             device_type: info.device_type,
             backend: info.backend,
         }
