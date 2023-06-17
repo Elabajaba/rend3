@@ -41,10 +41,10 @@ egui = { git = "https://github.com/emilk/egui.git", rev = "3d6a15f442929ae14b942
 # wgpu-hal = "0.16"
 # wgpu-core = "0.16"
 # wgpu-types = "0.16"
-wgpu = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
-wgpu-hal = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
-wgpu-core = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
-wgpu-types = { git = "https://github.com/gents83/wgpu.git", rev = "c498c28fae09f04680740b58ba3c0e3ab04dae5d" }
+wgpu = { git = "https://github.com/gents83/wgpu.git", rev = "c6e9de8dd1c938ecf0bf4ee6dd44b75336b8c9f1" }
+wgpu-hal = { git = "https://github.com/gents83/wgpu.git", rev = "c6e9de8dd1c938ecf0bf4ee6dd44b75336b8c9f1" }
+wgpu-core = { git = "https://github.com/gents83/wgpu.git", rev = "c6e9de8dd1c938ecf0bf4ee6dd44b75336b8c9f1" }
+wgpu-types = { git = "https://github.com/gents83/wgpu.git", rev = "c6e9de8dd1c938ecf0bf4ee6dd44b75336b8c9f1" }
 # wgpu = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-core = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }
 # wgpu-hal = { git = "https://github.com/gfx-rs/wgpu.git", rev = "fac4731288117d951d0944d96cf0b00fa006dd6c" }

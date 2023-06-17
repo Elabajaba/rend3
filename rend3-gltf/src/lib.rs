@@ -1859,6 +1859,6 @@ pub(crate) fn components(format: TextureFormat) -> u8 {
         TextureFormat::EacR11Snorm => 1,
         TextureFormat::EacRg11Unorm => 2,
         TextureFormat::EacRg11Snorm => 2,
-        TextureFormat::Astc { block, channel } => todo!(),
+        TextureFormat::Astc { .. } => 4,
     }
 }
